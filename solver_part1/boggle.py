@@ -40,12 +40,13 @@ paths = []
 
 
 def path_to_word(path):
-   return ''.join([grid[p] for p in path])
+    return ''.join([grid[p] for p in path])
 
 
 def get_dictionary():
-   with open('words.txt') as f:
-       return [word.strip().upper() for word in f]
+    with open('words.txt') as f:
+        return [word.strip().upper() for word in f]
+
 
 def search(path):
     logging.debug('%s: %s' % (path, path_to_word(path)))

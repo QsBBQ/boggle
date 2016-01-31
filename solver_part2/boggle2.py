@@ -1,8 +1,23 @@
 from random import choice
 from string import ascii_uppercase
 import logging
+import time
 
 logging.basicConfig(level=logging.INFO)
+
+
+def timeit(method):
+    """
+    Third timing example.
+    Had to put this before the methods I was decorating
+    """
+    def timed(*args, **kw):
+        t1 = time.time()
+        result = method(*args, **kw)
+        print '%r %2.2f sec' % (method.__name__, time.time() - t1)
+        return result
+
+    return timed
 
 
 def get_grid():
@@ -56,6 +71,8 @@ def get_dictionary():
                 stems.add(word[:i + 1])
     return dictionary, stems
 
+
+@timeit
 def get_words():
     """Search each grid position and return all the words found"""
     for position in grid:
@@ -71,7 +88,24 @@ def print_grid(grid):
         for x in range(X):
             s += grid[x, y] + ' '
         s += '\n'
-    print s
+    print(s)
+
+
+def time_get_words():
+    """First timing example time the get_words method"""
+    t1 = time.time()
+    get_words()
+    t2 = time.time()
+    total = t2-t1
+    print '%.2f sec' % total
+
+
+def time_function(method):
+    """Second timing example pass in a mthod to be timed"""
+    t1 = time.time()
+    result = method()
+    print '%2.2f sec' % (time.time() - t1)
+    return result
 
 
 size = X, Y = 3, 3
@@ -82,5 +116,6 @@ neighbours = get_neighbours()
 dictionary = get_dictionary()
 paths = []
 
+# words = time_function(get_words)
 words = get_words()
 print words
