@@ -27,7 +27,7 @@ def get_neighbors():
     return neighbors
 
 
-size = X, Y = 2, 2
+size = X, Y = 3, 3
 grid = get_grid()
 neighbors = get_neighbors()
 # print(grid)
@@ -45,7 +45,9 @@ def path_to_word(path):
 
 def get_dictionary():
     with open('words.txt') as f:
-        return [word.strip().upper() for word in f]
+        # return [word.strip().upper() for word in f]
+        # This is a set for faster searching much faster
+        return {w.strip().upper() for w in f}
 
 
 def search(path):
