@@ -16,7 +16,7 @@ def timeit(method):
     def timed(*args, **kw):
         t1 = time.time()
         result = method(*args, **kw)
-        print '%r %2.2f sec' % (method.__name__, time.time() - t1)
+        print('%r %2.2f sec' % (method.__name__, time.time() - t1))
         return result
 
     return timed
@@ -39,6 +39,7 @@ def get_grid():
         else:
             build_grid[grid_key] = cube_choice
     return build_grid
+
 
 def get_neighbours():
     """Return a dictionary with all the neighbours surrounding a particular position"""
@@ -75,6 +76,7 @@ def search(path):
             search(path + [next_pos])
         else:
             logging.debug('%s: skipping %s because in path' % (path, grid[next_pos]))
+
 
 @timeit
 def get_dictionary():
@@ -118,7 +120,7 @@ def time_get_words():
     get_words()
     t2 = time.time()
     total = t2-t1
-    print '%.2f sec' % total
+    print('%.2f sec' % total)
 
 
 def time_function(method):
