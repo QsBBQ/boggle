@@ -1,3 +1,5 @@
+# http://www.freescrabbledictionary.com/twl06/
+#
 from random import choice
 from string import ascii_uppercase
 import logging
@@ -19,11 +21,24 @@ def timeit(method):
 
     return timed
 
+cubes = ['CSOAHP', 'ABBOJO', 'ENSIUE', 'FSKFAP',
+         'EGAENE', 'YIDSTT', 'ATTOWO', 'TOESIS',
+         'RHTVWE', 'HLNNRZ', 'MTIOUC', 'NEEHGW',
+         'DIXRLE', 'YLDERV', 'QHMUNI', 'RETTYL']
+
 
 def get_grid():
     """Return a dictionary of grid positions to random letters"""
-    return {(x, y): choice(ascii_uppercase) for x in range(X) for y in range(Y)}
-
+    # return {(x, y): choice(ascii_uppercase) for x in range(X) for y in range(Y)}
+    build_grid = {(x, y): "letter" for x in range(X) for y in range(Y)}
+    # Is there a better way ?
+    for idx, grid_key in enumerate(build_grid.keys()):
+        cube_choice = choice(cubes[idx])
+        if cube_choice == "Q":
+            build_grid[grid_key] = cube_choice + "U"
+        else:
+            build_grid[grid_key] = cube_choice
+    return build_grid
 
 def get_neighbours():
     """Return a dictionary with all the neighbours surrounding a particular position"""
@@ -52,7 +67,9 @@ def search(path):
     if word not in stems:
         return
     if word in dictionary:
-        paths.append(path)
+        # depending on rules must be at least 3 letters
+        if len(word) >= 3:
+            paths.append(path)
     for next_pos in neighbours[path[-1]]:
         if next_pos not in path:
             search(path + [next_pos])
@@ -66,11 +83,13 @@ def get_dictionary():
 
     with open('words.txt') as f:
         for word in f:
-            word = word.strip().upper()
-            dictionary.add(word)
+            # Only words 3 letters or greater
+            if len(word) >= 3:
+                word = word.strip().upper()
+                dictionary.add(word)
 
-            for i in range(len(word)):
-                stems.add(word[:i + 1])
+                for i in range(len(word)):
+                    stems.add(word[:i + 1])
     return dictionary, stems
 
 
